@@ -17,7 +17,7 @@ public class Cliente {
     public String getNome(){return nome;}
     public BigDecimal getSalarioBruto(){return salarioBruto;}
     public BigDecimal getSalatioLiquido(){return salatioLiquido;}
-    public void setSalatioLiquido(BigDecimal salatioLiquido) {
+    public void setSalarioLiquido(BigDecimal salatioLiquido) {
         this.salatioLiquido = salatioLiquido;
     }
 }
