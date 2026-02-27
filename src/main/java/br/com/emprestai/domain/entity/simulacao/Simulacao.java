@@ -1,4 +1,4 @@
-package br.com.emprestai.domain.simulacao;
+package br.com.emprestai.domain.entity.simulacao;
 
 import java.math.BigDecimal;
 import java.util.UUID;

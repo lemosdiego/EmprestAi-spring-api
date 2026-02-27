@@ -1,4 +1,4 @@
-package br.com.emprestai.domain.cliente;
+package br.com.emprestai.domain.entity.cliente;
 
 import java.math.BigDecimal;
 import java.util.UUID;
