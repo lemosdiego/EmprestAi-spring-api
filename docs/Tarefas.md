@@ -3,7 +3,7 @@
 ## Fase 1 – Planejamento
 - [ ✅ ] Definir requisitos funcionais
 - [ ✅ ] Definir requisitos não funcionais
-- [ ] Definir regras de negócio de crédito
+- [ ✅ ] Definir regras de negócio de crédito
 - [ ✅ ] Desenhar fluxograma da simulação
 
 ## Fase 2 – Arquitetura
@@ -13,9 +13,9 @@
 
 ## Fase 3 – Implementação Backend
 - [ ] Configurar build.gradle
-- [ ] Criar estrutura de pacotes DDD
-- [ ] Implementar cálculo de INSS
-- [ ] Implementar cálculo de crédito
+- [ ✅ ] Criar estrutura de pacotes DDD
+- [ ✅ ] Implementar cálculo de INSS
+- [ ✅ ] Implementar cálculo de crédito
 - [ ] Expor endpoint de simulação
 
 ## Fase 4 – Infra & DB
