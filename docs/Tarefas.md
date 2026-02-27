@@ -4,11 +4,11 @@
 - [ ✅ ] Definir requisitos funcionais
 - [ ✅ ] Definir requisitos não funcionais
 - [ ] Definir regras de negócio de crédito
-- [ ] Desenhar fluxograma da simulação
+- [ ✅ ] Desenhar fluxograma da simulação
 
 ## Fase 2 – Arquitetura
-- [ ] Definir camadas (Domain, Application, Infrastructure)
-- [ ] Desenhar modelo de domínio (entidades)
+- [ ✅ ] Definir camadas (Domain, Application, Infrastructure)
+- [ ✅ ] Desenhar modelo de domínio (entidades)
 - [ ] Definir modelo de banco de dados inicial
 
 ## Fase 3 – Implementação Backend
