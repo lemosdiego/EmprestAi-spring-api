@@ -1,0 +1,23 @@
+package br.com.emprestai.domain.cliente;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+public class Cliente {
+    private UUID id;
+    private String nome;
+    private BigDecimal salarioBruto;
+    private BigDecimal salatioLiquido;
+
+    public Cliente(String nome, BigDecimal salarioBruto, BigDecimal salatioLiquido){
+        this.nome = nome;
+        this.salarioBruto = salarioBruto;
+        this.salatioLiquido = salatioLiquido;
+    }
+    public String getNome(){return nome;}
+    public BigDecimal getSalarioBruto(){return salarioBruto;}
+    public BigDecimal getSalatioLiquido(){return salatioLiquido;}
+    public void setSalatioLiquido(BigDecimal salatioLiquido) {
+        this.salatioLiquido = salatioLiquido;
+    }
+}
