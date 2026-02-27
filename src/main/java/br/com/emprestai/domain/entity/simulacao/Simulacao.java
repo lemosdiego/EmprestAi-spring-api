@@ -12,7 +12,7 @@ public class Simulacao {
     public BigDecimal valorDasParcelas;
     public BigDecimal porcentagemDoSalario;
 
-    public Simulacao (UUID id, BigDecimal salarioLiquido, String faixaDeCredito, BigDecimal limiteTotal, Integer parcelas, BigDecimal valorDasParcelas){
+    public Simulacao (UUID id, BigDecimal salarioLiquido, String faixaDeCredito, BigDecimal limiteTotal, Integer parcelas, BigDecimal valorDasParcelas, BigDecimal porcentagemSalario){
         this.salarioLiquido = salarioLiquido;
         this.faixaDeCredito = faixaDeCredito;
         this.limiteTotal = limiteTotal;
