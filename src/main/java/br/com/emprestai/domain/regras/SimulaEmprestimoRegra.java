@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class SimulaEmprestimoRegra {
-    public Simulacao run(BigDecimal salarioLiquido, Integer parcelas){
+    public static Simulacao run(BigDecimal salarioLiquido, Integer parcelas){
         FaixaCredito regra = FaixaCredito.FaixaPara(salarioLiquido);
 
         BigDecimal limite = regra.calcularLimite(salarioLiquido);
