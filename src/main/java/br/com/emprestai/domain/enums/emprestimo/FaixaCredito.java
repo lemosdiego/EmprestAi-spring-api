@@ -50,7 +50,7 @@ public enum FaixaCredito {
     //Inicia com o minimo de parcelas (12) e acrescenta mais 6 de acordo com a renda salarial das nossas faixa de credito.
     public List<Integer> getOpcoesDeParcelamento(){
         List<Integer> opcoes = new ArrayList<>();
-        for (int numeroDeParcelas = parcelasMinimas; numeroDeParcelas <= parcelasMinimas; numeroDeParcelas += 6){
+        for (int numeroDeParcelas = parcelasMinimas; numeroDeParcelas <= parcelasMaximas; numeroDeParcelas += 6){
             opcoes.add(numeroDeParcelas);
         }
         return opcoes;

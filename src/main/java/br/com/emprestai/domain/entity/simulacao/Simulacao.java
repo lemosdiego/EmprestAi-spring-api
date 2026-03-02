@@ -18,6 +18,6 @@ public class Simulacao {
         this.limiteTotal = limiteTotal;
         this.parcelas = parcelas;
         this.valorDasParcelas = valorDasParcelas;
-        this.porcentagemDoSalario = valorDasParcelas;
+        this.porcentagemDoSalario = porcentagemSalario;
     }
 }
