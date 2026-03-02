@@ -10,7 +10,7 @@ public class Cliente {
     private BigDecimal salatioLiquido;
 
     public Cliente(String nome, BigDecimal salarioBruto, BigDecimal salatioLiquido){
-        this.nome = nome;
+        this.nome = this.nome;
         this.salarioBruto = salarioBruto;
         this.salatioLiquido = salatioLiquido;
     }
