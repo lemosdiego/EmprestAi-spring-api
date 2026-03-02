@@ -24,6 +24,6 @@
 - [ ✅ ] Criar migrations iniciais
 
 ## Fase 5 – Testes & Docs
-- [ ] Testes unitários de regras de negócio
+- [ ✅ ] Testes de regras de negócio
 - [ ] Testes de integração da API
 - [ ] Documentar API (Swagger/OpenAPI)
