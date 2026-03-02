@@ -1,5 +1,6 @@
 package br.com.emprestai;
 
+import br.com.emprestai.application.usecases.SimularEmprestimoUseCase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -10,6 +11,7 @@ public class EmprestAiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmprestAiApplication.class, args);
+
 	}
 
 }
