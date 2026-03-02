@@ -12,11 +12,11 @@
 - [ ✅ ] Definir modelo de banco de dados inicial
 
 ## Fase 3 – Implementação Backend
-- [ ] Configurar build.gradle
+- [ ✅ ] Configurar build.gradle
 - [ ✅ ] Criar estrutura de pacotes DDD
 - [ ✅ ] Implementar cálculo de INSS
 - [ ✅ ] Implementar cálculo de crédito
-- [ ] Expor endpoint de simulação
+- [ ✅ ] Expor endpoint de simulação
 
 ## Fase 4 – Infra & DB
 - [ ✅ ] Criar docker-compose com Postgres
