@@ -9,7 +9,7 @@
 ## Fase 2 – Arquitetura
 - [ ✅ ] Definir camadas (Domain, Application, Infrastructure)
 - [ ✅ ] Desenhar modelo de domínio (entidades)
-- [ ] Definir modelo de banco de dados inicial
+- [ ✅ ] Definir modelo de banco de dados inicial
 
 ## Fase 3 – Implementação Backend
 - [ ] Configurar build.gradle
@@ -19,9 +19,9 @@
 - [ ] Expor endpoint de simulação
 
 ## Fase 4 – Infra & DB
-- [ ] Criar docker-compose com Postgres
-- [ ] Configurar Flyway
-- [ ] Criar migrations iniciais
+- [ ✅ ] Criar docker-compose com Postgres
+- [ ✅ ] Configurar Flyway
+- [ ✅ ] Criar migrations iniciais
 
 ## Fase 5 – Testes & Docs
 - [ ] Testes unitários de regras de negócio
