@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 @Service
 public class SimularEmprestimoUseCase {
 
+    private static final BigDecimal SALARIO_MINIMO_BRUTO_PERMITIDO = new BigDecimal("1621.00");
+
     private final ClienteRepository clienteRepository;
     private final SimulacaoRepository simulacaoRepository;
 
@@ -38,6 +40,11 @@ public class SimularEmprestimoUseCase {
 
         String nome = request.nome();
         BigDecimal salarioBruto = request.salarioBruto();
+
+        // Validação do salário bruto mínimo
+        if (salarioBruto.compareTo(SALARIO_MINIMO_BRUTO_PERMITIDO) < 0) {
+            throw new IllegalArgumentException("O salário bruto informado é inferior ao mínimo permitido de R$ " + SALARIO_MINIMO_BRUTO_PERMITIDO);
+        }
 
         Cliente cliente = new Cliente(nome, salarioBruto, BigDecimal.ZERO);
         CalculoSalarioLiquidoRegra regraLiquido = new CalculoSalarioLiquidoRegra();

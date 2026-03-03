@@ -4,11 +4,7 @@ package br.com.emprestai.application.controllers;
 import br.com.emprestai.application.controllers.dto.request.SimularEmprestimoRequest;
 import br.com.emprestai.application.controllers.dto.response.SimularEmprestimoResponse;
 import br.com.emprestai.application.usecases.SimularEmprestimoUseCase;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/simulacoes")
