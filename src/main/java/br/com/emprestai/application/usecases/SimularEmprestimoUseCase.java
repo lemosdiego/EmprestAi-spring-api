@@ -41,7 +41,6 @@ public class SimularEmprestimoUseCase {
         String nome = request.nome();
         BigDecimal salarioBruto = request.salarioBruto();
 
-        // Validação do salário bruto mínimo
         if (salarioBruto.compareTo(SALARIO_MINIMO_BRUTO_PERMITIDO) < 0) {
             throw new IllegalArgumentException("O salário bruto informado é inferior ao mínimo permitido de R$ " + SALARIO_MINIMO_BRUTO_PERMITIDO);
         }
