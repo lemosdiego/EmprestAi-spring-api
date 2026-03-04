@@ -25,5 +25,5 @@
 
 ## Fase 5 – Testes & Docs
 - [ ✅ ] Testes de regras de negócio
-- [ ] Testes de integração da API
+- [ ✅ ] Testes de integração da API
 - [ ] Documentar API (Swagger/OpenAPI)
