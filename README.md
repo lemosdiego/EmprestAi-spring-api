@@ -4,18 +4,27 @@
 
 O **EmprestAi** é uma API REST desenvolvida em Java com Spring Boot, responsável por realizar simulações de empréstimos pessoais. O sistema aplica regras de negócio baseadas no salário líquido do cliente (após desconto do INSS) para determinar limites de crédito e condições de parcelamento.
 
-O projeto foi construído com foco em **boas práticas de desenvolvimento**, **arquitetura limpa (DDD)** e **testabilidade**.
+O projeto foi construído com foco em **boas práticas de desenvolvimento**, **arquitetura limpa (DDD)** e **infraestrutura Cloud-Native**.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🚀 Tecnologias e Ferramentas
 
-- **Java 21**
+### Backend
+- **Java 21** (LTS)
 - **Spring Boot 3** (Web, Data JPA, Validation)
-- **PostgreSQL** (Banco de Dados)
 - **Flyway** (Migração de Banco de Dados)
-- **Docker & Docker Compose** (Containerização)
-- **JUnit 5** (Testes)
+- **JUnit 5** (Testes Automatizados)
+
+### Infraestrutura & Cloud (Serverless)
+- **Google Cloud Run:** Plataforma de container serverless para hospedar a API.
+- **Neon (PostgreSQL):** Banco de dados PostgreSQL serverless, separando computação de armazenamento.
+- **Google Artifact Registry:** Armazenamento seguro das imagens Docker.
+- **Google Secret Manager:** Gerenciamento seguro de credenciais (URL do banco de dados).
+- **Docker:** Containerização da aplicação com *Multi-Stage Build* para imagens otimizadas.
+
+### Desenvolvimento Local
+- **Docker Compose:** Orquestração do ambiente de desenvolvimento local (PostgreSQL).
 
 ---
 
@@ -23,35 +32,48 @@ O projeto foi construído com foco em **boas práticas de desenvolvimento**, **a
 
 O projeto segue os princípios do **Domain-Driven Design (DDD)**, organizado nas seguintes camadas:
 
-- **Domain:** Contém as entidades (`Cliente`, `Simulacao`), enums (`FaixaInss`, `FaixaCredito`) e as regras de negócio puras (`CalculoSalarioLiquidoRegra`, `SimulaEmprestimoRegra`). Esta camada não depende de frameworks externos.
-- **Application:** Contém os casos de uso (`SimularEmprestimoUseCase`) e os controladores REST (`SimularEmprestimoController`), orquestrando o fluxo de dados.
-- **Infrastructure:** Implementação de persistência (`Repositories`, `JPA Entities`) e configurações de banco de dados.
+- **Domain:** Contém as entidades (`Cliente`, `Simulacao`), enums (`FaixaInss`, `FaixaCredito`) e as regras de negócio puras.
+- **Application:** Contém os casos de uso (`SimularEmprestimoUseCase`) e os controladores REST.
+- **Infrastructure:** Implementação de persistência e configurações de banco de dados.
 
 ---
 
 ## ⚙️ Como Executar o Projeto
 
-### Pré-requisitos
+### 1. Ambiente Local (Desenvolvimento)
 
-- Docker e Docker Compose instalados
-- JDK 21 (opcional, caso queira rodar fora do Docker)
+Para rodar a aplicação localmente, utilizamos o Docker Compose para subir o banco de dados e configuramos a aplicação para usar o perfil `dev`.
 
-### Passo a Passo
+**Pré-requisitos:** Docker e JDK 21 instalados.
 
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/seu-usuario/emprestai.git
-   cd emprestai
-   ```
-
-2. **Suba o ambiente com Docker Compose:**
-   Este comando iniciará o banco de dados PostgreSQL e a aplicação.
+1. **Suba o banco de dados local:**
    ```bash
    docker-compose up -d
    ```
 
-3. **Aguarde a inicialização:**
-   A aplicação estará disponível em `http://localhost:8080`.
+2. **Execute a aplicação:**
+   Você pode rodar via IDE (IntelliJ/Eclipse) ativando o perfil `dev` ou via terminal:
+   ```bash
+   ./gradlew bootRun --args='--spring.profiles.active=dev'
+   ```
+   
+   *A API estará disponível em `http://localhost:8080`.*
+
+### 2. Ambiente de Produção (Cloud Run)
+
+O deploy é realizado via Google Cloud CLI (`gcloud`). A aplicação é empacotada em um container Docker e implantada no Cloud Run, conectando-se ao banco Neon via variáveis de ambiente seguras.
+
+**Fluxo de Deploy:**
+1. Build da imagem Docker.
+2. Push para o Artifact Registry.
+3. Deploy no Cloud Run injetando a secret `DB_URL`.
+
+```bash
+# Exemplo de comando de deploy
+gcloud run deploy emprestai-api \
+  --image=us-central1-docker.pkg.dev/SEU_PROJETO/emprestai-repo/emprestai-api:latest \
+  --set-secrets="DB_URL=NEON_DB_URL:latest"
+```
 
 ---
 
@@ -92,7 +114,6 @@ Realiza uma simulação de crédito com base nos dados do cliente.
         "parcelas": 24,
         "valorParcela": 1042.03
       }
-      // ... outros planos disponíveis
     ]
   }
 }
@@ -103,14 +124,10 @@ Realiza uma simulação de crédito com base nos dados do cliente.
 ## 📐 Regras de Negócio
 
 ### 1. Cálculo do Salário Líquido (INSS)
-O sistema calcula o desconto do INSS de forma progressiva, utilizando as faixas oficiais (exemplo de 2024):
-- Até R$ 1.412,00: **7,5%**
-- De R$ 1.412,01 a R$ 2.666,68: **9%**
-- De R$ 2.666,69 a R$ 4.000,03: **12%**
-- De R$ 4.000,04 a R$ 7.786,02: **14%**
+O sistema calcula o desconto do INSS de forma progressiva.
 
 ### 2. Faixas de Crédito
-Com base no salário líquido, o cliente é enquadrado em uma categoria que define o limite de crédito e o prazo máximo:
+Com base no salário líquido, o cliente é enquadrado em uma categoria que define o limite de crédito e o prazo máximo.
 
 | Salário Líquido (R$) | Limite de Crédito | Máx. Parcelas |
 |----------------------|-------------------|---------------|
@@ -119,21 +136,13 @@ Com base no salário líquido, o cliente é enquadrado em uma categoria que defi
 | 3.501,00 - 4.500,00  | Até 5x o salário  | 24x           |
 | Acima de 4.501,00    | Até 6x o salário  | 32x           |
 
-### 3. Regra da Parcela
-O valor da parcela mensal **não pode ultrapassar 20%** do salário líquido do cliente, garantindo a saúde financeira do tomador de crédito.
+### 3. Validação Mínima
+O sistema não processa simulações para salários brutos inferiores a **R$ 1.621,00**.
 
 ---
 
-## 🛠️ Desenvolvimento e Testes
+## 🛠️ Comandos Úteis
 
-Para rodar os testes unitários e de integração:
-
-```bash
-./gradlew test
-```
-
-Para gerar o build do projeto:
-
-```bash
-./gradlew build
-```
+- **Rodar Testes:** `./gradlew test`
+- **Gerar Build:** `./gradlew build`
+- **Limpar Projeto:** `./gradlew clean`
