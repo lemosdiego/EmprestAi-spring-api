@@ -28,6 +28,9 @@ public class SimulacaoJpa {
     @Column(name = "valor_solicitado", nullable = false, precision = 12, scale = 2)
     private BigDecimal valorSolicitado;
 
+    @Column(name = "valor_simulado", precision = 12, scale = 2)
+    private BigDecimal valorSimulado;
+
     @Column(name = "prazo_meses", nullable = false)
     private Integer prazoMeses;
 
@@ -45,11 +48,13 @@ public class SimulacaoJpa {
     public SimulacaoJpa(
         UUID clienteId,
         BigDecimal valorSolicitado,
+        BigDecimal valorSimulado,
         Integer prazoMeses,
         String resultado
     ){
         this.clienteId = clienteId;
         this.valorSolicitado = valorSolicitado;
+        this.valorSimulado = valorSimulado;
         this.prazoMeses = prazoMeses;
         this.resultado = resultado;
         this.createdAt = LocalDateTime.now();
@@ -85,6 +90,14 @@ public class SimulacaoJpa {
 
     public void setValorSolicitado(BigDecimal valorSolicitado) {
         this.valorSolicitado = valorSolicitado;
+    }
+
+    public BigDecimal getValorSimulado() {
+        return valorSimulado;
+    }
+
+    public void setValorSimulado(BigDecimal valorSimulado) {
+        this.valorSimulado = valorSimulado;
     }
 
     public Integer getPrazoMeses() {
