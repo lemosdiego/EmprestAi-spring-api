@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class SimularEmprestimoUseCase {
@@ -40,6 +40,7 @@ public class SimularEmprestimoUseCase {
 
         String nome = request.nome();
         BigDecimal salarioBruto = request.salarioBruto();
+        Optional<BigDecimal> valorDesejadoOpt = request.valorDesejado();
 
         if (salarioBruto.compareTo(SALARIO_MINIMO_BRUTO_PERMITIDO) < 0) {
             throw new IllegalArgumentException("O salário bruto informado é inferior ao mínimo permitido de R$ " + SALARIO_MINIMO_BRUTO_PERMITIDO);
@@ -51,22 +52,43 @@ public class SimularEmprestimoUseCase {
         BigDecimal salarioLiquido = clienteLiquido.getSalatioLiquido();
 
         FaixaCredito faixa = FaixaCredito.FaixaPara(salarioLiquido);
-        BigDecimal limite = faixa.calcularLimite(salarioLiquido);
+        BigDecimal limiteCredito = faixa.calcularLimite(salarioLiquido);
 
-        SimulaEmprestimoRegra regraSimulacao = new SimulaEmprestimoRegra();
+        BigDecimal valorParaSimulacao;
+
+        if (valorDesejadoOpt.isPresent()) {
+            BigDecimal valorDesejado = valorDesejadoOpt.get();
+
+            if (valorDesejado.compareTo(BigDecimal.ZERO) <= 0) {
+                throw new IllegalArgumentException("O valor desejado deve ser maior que zero.");
+            }
+
+            if (valorDesejado.compareTo(limiteCredito) > 0) {
+                throw new IllegalArgumentException("O valor desejado de R$ " + valorDesejado + 
+                        " excede o seu limite máximo aprovado de R$ " + limiteCredito);
+            }
+
+            valorParaSimulacao = valorDesejado;
+        } else {
+            valorParaSimulacao = limiteCredito;
+        }
+
+        // Variável efetivamente final para uso no lambda
+        final BigDecimal valorFinalParaSimulacao = valorParaSimulacao;
+
         List<Integer> opcoes = faixa.getOpcoesDeParcelamento();
         List<Simulacao> simulacoes = opcoes.stream()
-                .map(parcelas -> regraSimulacao.run(salarioLiquido, parcelas))
+                .map(parcelas -> SimulaEmprestimoRegra.run(salarioLiquido, valorFinalParaSimulacao, parcelas))
                 .toList();
 
         ClienteJpa clienteJpa = new ClienteJpa(nome, salarioBruto, salarioLiquido);
         ClienteJpa clienteSalvo = clienteRepository.save(clienteJpa);
 
-
         List<SimulacaoJpa> simulacaoJpas = simulacoes.stream()
                 .map(sim -> new SimulacaoJpa(
                         clienteSalvo.getId(),
-                        limite,
+                        limiteCredito, // Mantém o limite máximo original
+                        valorFinalParaSimulacao, // Novo campo com o valor simulado
                         sim.parcelas,
                         String.format("%d meses R$%.2f (%.1f%%)",
                                 sim.parcelas,
@@ -77,7 +99,6 @@ public class SimularEmprestimoUseCase {
 
         simulacaoRepository.saveAll(simulacaoJpas);
 
-
         List<PlanosResponse> planos = simulacoes.stream()
                 .map(sim -> new PlanosResponse(
                         sim.parcelas,
@@ -87,6 +108,6 @@ public class SimularEmprestimoUseCase {
                 ))
                 .toList();
 
-        return new SimularEmprestimoResponse(nome, salarioLiquido, faixa.name(), limite, planos);
+        return new SimularEmprestimoResponse(nome, salarioLiquido, faixa.name(), limiteCredito, valorFinalParaSimulacao, planos);
     }
 }
