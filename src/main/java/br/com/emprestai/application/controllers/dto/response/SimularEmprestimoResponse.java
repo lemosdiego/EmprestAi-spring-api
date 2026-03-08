@@ -8,5 +8,6 @@ public record SimularEmprestimoResponse(
         BigDecimal salarioLiquido,
         String faixa,
         BigDecimal limiteTotal,
+        BigDecimal valorSimulado,
         List<PlanosResponse> planos
 ) { }
