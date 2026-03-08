@@ -1,0 +1,1 @@
+ALTER TABLE simulacoes ADD COLUMN valor_simulado DECIMAL(12,2)
