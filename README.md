@@ -14,10 +14,10 @@ O projeto foi construído com foco em **boas práticas de desenvolvimento**, **a
 - **Java 21** (LTS)
 - **Spring Boot 3** (Web, Data JPA, Validation)
 - **Flyway** (Migração de Banco de Dados)
-- 
+  
 #### Próxima etapa de aprendizado 
 - **JUnit 5** (Testes Automatizados)
-- 
+  
 ### Infraestrutura & Cloud (Serverless)
 - **Google Cloud Run:** Plataforma de container serverless para hospedar a API.
 - **Neon (PostgreSQL):** Banco de dados PostgreSQL serverless, separando computação de armazenamento.
