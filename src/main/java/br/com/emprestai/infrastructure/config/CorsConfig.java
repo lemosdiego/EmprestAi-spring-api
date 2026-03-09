@@ -9,12 +9,12 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // Aplica a todas as rotas
+        registry.addMapping("/**")
                 .allowedOrigins(
-                        "https://emprestai.netlify.app", // Seu frontend em produção
-                        "http://localhost:3000",         // Seu frontend local (React/Next/Vue)
-                        "http://localhost:4200",         // Seu frontend local (Angular)
-                        "http://localhost:5173"          // Seu frontend local (Vite)
+                        "https://emprestai.netlify.app",
+                        "http://localhost:3000",
+                        "http://localhost:4200",
+                        "http://localhost:5173"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
     }
